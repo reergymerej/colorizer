@@ -18,6 +18,17 @@ const scale = (value: number, min: number, max: number): number => {
   return scaledValue / rangeLength
 }
 
+const getRandomIntInclusive = (min: number, max: number): number => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+const rand = <T extends any>(arr: T[]): T => {
+  const index = getRandomIntInclusive(0, arr.length - 1)
+  return arr[index]
+}
+
 const Range = ({ values, backgroundColor, relativeScale = true }: PropsRange) => {
   const min = Math.min(...values)
   const max = Math.max(...values)
@@ -54,6 +65,8 @@ const generateRange = (min: number, max: number): number[] => {
   ]
 }
 
+const colors = ['salmon', '#09f', 'yellowgreen', 'rebeccapurple', '#867530']
+
 const ranges: Range[] = [
   {
     id: '1 - 100',
@@ -86,7 +99,7 @@ function App() {
             <>
               <Range key={range.id + 'relative'}
                 values={range.values}
-                backgroundColor='#09f'
+                backgroundColor={rand(colors)}
               />
               {/* <Range key={range.id}
                 values={range.values}
