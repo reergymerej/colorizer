@@ -9,22 +9,23 @@ type Range = {
 type PropsRange = {
   values: Range['values']
   backgroundColor: string
-  scaleRange?: boolean
+  relativeScale?: boolean
 }
 
-const Range = ({ values, backgroundColor, scaleRange }: PropsRange) => {
+const scale = (value: number, min: number, max: number): number => {
+  const rangeLength = max - min
+  const scaledValue = value - min
+  return scaledValue / rangeLength
+}
+
+const Range = ({ values, backgroundColor, relativeScale }: PropsRange) => {
   const min = Math.min(...values)
   const max = Math.max(...values)
-  const rangeLength = scaleRange
-    ? max - min
-    : max
+  const scaleMin = relativeScale ? min : 0
   return (
     <div className='Range'>
       {values.map(value => {
-        const scaledValue = value - min
-        const opacity = scaleRange
-          ? scaledValue / rangeLength
-          : value / rangeLength
+        const opacity = scale(value, scaleMin, max)
         const style = {
           backgroundColor,
           opacity,
@@ -82,7 +83,7 @@ function App() {
               <Range key={range.id}
                 values={range.values}
                 backgroundColor='#09f'
-                scaleRange
+                relativeScale
               />
             </>
           </React.Fragment>
