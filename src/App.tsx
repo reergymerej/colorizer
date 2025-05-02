@@ -41,32 +41,40 @@ const Range = ({ values, backgroundColor, relativeScale }: PropsRange) => {
   )
 }
 
+const generateRange = (min: number, max: number): number[] => {
+  const length = max - min
+  const mid = Math.round(min + (length / 2))
+  const step = (mid - min) / 2
+  return [
+    min,
+    min + step,
+    mid,
+    mid + step,
+    max,
+  ]
+}
+
 const ranges: Range[] = [
   {
     id: '1 - 100',
-    values: [
-      1,
-      25,
-      50,
-      75,
-      100,
-    ],
+    values: generateRange(1, 100),
   },
   {
     id: '50 - 100',
-    values: [
-      50,
-      50 + ((75 - 50) / 2),
-      75,
-      75 + ((100 - 75) / 2),
-      100,
-    ],
+    values: generateRange(50, 100),
   },
-
-  // * 5 - 7
-  // * 1 - 10,000
-
-
+  {
+    id: '* 5 - 7',
+    values: generateRange(5, 7),
+  },
+  {
+    id: '1 - 10,000',
+    values: generateRange(1, 10000),
+  },
+  {
+    id: '666 - 1000',
+    values: generateRange(666, 1000),
+  }
 ]
 
 function App() {
@@ -80,7 +88,7 @@ function App() {
                 values={range.values}
                 backgroundColor='#09f'
               />
-              <Range key={range.id}
+              <Range key={range.id + 'relative'}
                 values={range.values}
                 backgroundColor='#09f'
                 relativeScale
