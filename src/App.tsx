@@ -18,7 +18,7 @@ const scale = (value: number, min: number, max: number): number => {
   return scaledValue / rangeLength
 }
 
-const Range = ({ values, backgroundColor, relativeScale }: PropsRange) => {
+const Range = ({ values, backgroundColor, relativeScale = true }: PropsRange) => {
   const min = Math.min(...values)
   const max = Math.max(...values)
   const scaleMin = relativeScale ? min : 0
@@ -31,7 +31,7 @@ const Range = ({ values, backgroundColor, relativeScale }: PropsRange) => {
           opacity,
         }
         return (
-          <div className="Value">
+          <div className="Value" key={value}>
             <div className="bg" style={style} />
             <span>{value}</span>
           </div>
@@ -72,8 +72,8 @@ const ranges: Range[] = [
     values: generateRange(1, 10000),
   },
   {
-    id: '666 - 1000',
-    values: generateRange(666, 1000),
+    id: '666 - 999',
+    values: generateRange(666, 999),
   }
 ]
 
@@ -84,15 +84,15 @@ function App() {
         return (
           <React.Fragment key={range.id}>
             <>
-              <Range key={range.id}
-                values={range.values}
-                backgroundColor='#09f'
-              />
               <Range key={range.id + 'relative'}
                 values={range.values}
                 backgroundColor='#09f'
-                relativeScale
               />
+              {/* <Range key={range.id}
+                values={range.values}
+                backgroundColor='#09f'
+                relativeScale={false}
+              /> */}
             </>
           </React.Fragment>
         )
